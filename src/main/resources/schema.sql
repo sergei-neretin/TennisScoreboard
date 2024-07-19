@@ -10,5 +10,6 @@ CREATE TABLE Matches (
     Winner INT NOT NULL,
     FOREIGN KEY (Player1) REFERENCES Players(ID),
     FOREIGN KEY (Player2) REFERENCES Players(ID),
-    FOREIGN KEY (Winner) REFERENCES Players(ID)
+    FOREIGN KEY (Winner) REFERENCES Players(ID),
+    CHECK((Player1 <> Player2) AND ((Winner = Player1) OR (Winner = Player2)))
 );
