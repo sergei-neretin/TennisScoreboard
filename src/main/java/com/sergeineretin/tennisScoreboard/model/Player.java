@@ -17,6 +17,6 @@ public class Player {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
-    @Column(name = "Name")
+    @Column(name = "Name", nullable = false, unique = true)
     private String name;
 }

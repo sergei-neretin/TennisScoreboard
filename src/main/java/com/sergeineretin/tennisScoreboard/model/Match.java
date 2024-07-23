@@ -27,4 +27,7 @@ public class Match {
     @JoinColumn(name = "Winner", foreignKey = @ForeignKey(name = "FK_Winner"))
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     private Player winner;
+
+    private int score1;
+    private int score2;
 }

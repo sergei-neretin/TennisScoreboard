@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MatchDto {
     private int id;
-    private PlayerDto player1;
-    private PlayerDto player2;
-    private PlayerDto winner;
+    private int player1;
+    private int player2;
+    private int score1;
+    private int score2;
 }
