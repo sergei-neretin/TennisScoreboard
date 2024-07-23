@@ -1,0 +1,23 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: lightblue;
+
+}
+
+input, label {
+    display:block;
+}
+
+h1 {
+    color: green;
+    text-align: center;
+}
+
+a {
+    display: block;
+    margin-top: 10px;
+}
+
+.start{
+     width: 70%;
+}
