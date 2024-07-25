@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/new_match")
+@WebServlet("/new-match")
 public class NewMatchController extends HttpServlet {
     private OngoingMatchesService ongoingMatchesService;
     @Override
@@ -22,7 +22,7 @@ public class NewMatchController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("new_match.jsp").forward(req, resp);
+        req.getRequestDispatcher("new-match.jsp").forward(req, resp);
     }
 
     @Override
@@ -32,8 +32,9 @@ public class NewMatchController extends HttpServlet {
         if (name1.equals(name2)) {
             req.setAttribute("player1", name1);
             req.setAttribute("player2", name2);
-            req.getRequestDispatcher("new_match.jsp").forward(req, resp);
+            req.getRequestDispatcher("new-match.jsp").forward(req, resp);
         }
-        ongoingMatchesService.add(name1, name2);
+        String uuidString = ongoingMatchesService.add(name1, name2);
+        resp.sendRedirect("/match-score?uuid=" + uuidString);
     }
 }

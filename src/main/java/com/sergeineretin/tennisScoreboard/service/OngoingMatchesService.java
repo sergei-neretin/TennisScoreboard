@@ -1,56 +1,55 @@
 package com.sergeineretin.tennisScoreboard.service;
 
-import com.sergeineretin.tennisScoreboard.dao.PlayerDao;
-import com.sergeineretin.tennisScoreboard.dao.impl.PlayerDaoImpl;
-import com.sergeineretin.tennisScoreboard.model.Match;
-import com.sergeineretin.tennisScoreboard.model.Player;
+import com.sergeineretin.tennisScoreboard.dto.Match;
+import com.sergeineretin.tennisScoreboard.dto.Player;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
 public class OngoingMatchesService {
+    private static OngoingMatchesService instance;
     private HashMap<UUID, Match> ongoingMatches;
-    PlayerDao playerDao;
+    private PlayerService playerService;
 
-    public OngoingMatchesService() {
+    private OngoingMatchesService() {
         ongoingMatches = new HashMap<>();
-        SessionFactory factory = new Configuration()
-                .configure("hibernate.cfg.xml")
-                .addAnnotatedClass(Player.class)
-                .buildSessionFactory();
-        playerDao = new PlayerDaoImpl(factory);
+        playerService = PlayerService.getInstance();
     }
 
-    public void add(String name1, String name2) {
+    public static synchronized OngoingMatchesService getInstance() {
+        if (instance == null) {
+            instance = new OngoingMatchesService();
+        }
+        return instance;
+    }
+
+    public String add(String name1, String name2) {
         UUID uuid = UUID.randomUUID();
-        Player player1 = getPlayer(name1);
-        Player player2 = getPlayer(name2);
-        Match match = Match.builder().player1(player1).player2(player2).build();
+        Player player1 = playerService.getPlayer(name1);
+        Player player2 = playerService.getPlayer(name2);
+        Match match = Match.builder()
+                        .id1(player1.getId())
+                        .id2(player2.getId())
+                        .build();
         ongoingMatches.put(uuid, match);
         log.info(MessageFormat.format("Added new ongoing match: UUID = {0}, player1 = {1}, player2 = {2}.",
                 uuid,
-                match.getPlayer1().getId(),
-                match.getPlayer2().getId()));
+                match.getId1(),
+                match.getId2()));
+
+        return uuid.toString();
     }
 
-    public Match getMatch(UUID uuid) {
+    public Match getMatch(String uuidString) {
+        UUID uuid = UUID.fromString(uuidString);
         return ongoingMatches.get(uuid);
     }
 
-    private Player getPlayer(String name) {
-        Optional<Player> optional = playerDao.findByName(name);
-        if (optional.isPresent()) {
-            return optional.get();
-        } else {
-            Player player = Player.builder().name(name).build();
-            playerDao.save(player);
-            return player;
-        }
+    public void remove(String uuidString) {
+        UUID uuid = UUID.fromString(uuidString);
+        ongoingMatches.remove(uuid);
     }
 }

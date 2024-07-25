@@ -21,3 +21,18 @@ a {
 .start{
      width: 70%;
 }
+
+
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 50%;
+    border-style: dotted;
+    border-width: thick;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
