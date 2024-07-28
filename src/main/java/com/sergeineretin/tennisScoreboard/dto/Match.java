@@ -18,5 +18,4 @@ public class Match {
     private int game2;
     private int set1;
     private int set2;
-    private boolean tieBreak;
 }

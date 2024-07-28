@@ -16,43 +16,48 @@ public class MatchScoreCalculationService {
     }
 
     private void updateSet(Match match, long playerWhoWinsPoint) {
-        if (match.getGame1() == 6 && match.getGame2() <= 4) {
-            match.setSet1(match.getSet1() + 1);
-        } else if (match.getGame2() == 6 && match.getGame1() <= 4) {
-            match.setSet2(match.getSet2() + 1);
-        } else if (match.getGame1() == 7 && match.getGame2() == 5) {
-            match.setSet1(match.getSet1() + 1);
-        } else if (match.getGame2() == 7 && match.getGame1() == 5) {
-            match.setSet2(match.getSet1() + 2);
-        } else if (tieBreakCondition(match)) {
+        if (tieBreakCondition(match)) {
             updateTieBreak(match, playerWhoWinsPoint);
         } else {
             updateGame(match, playerWhoWinsPoint);
+            if (match.getGame1() == 6 && match.getGame2() <= 4) {
+                match.setSet1(match.getSet1() + 1);
+                resetGames(match);
+            } else if (match.getGame2() == 6 && match.getGame1() <= 4) {
+                match.setSet2(match.getSet2() + 1);
+                resetGames(match);
+            } else if (match.getGame1() == 7 && match.getGame2() <= 5) {
+                match.setSet1(match.getSet1() + 1);
+                resetGames(match);
+            } else if (match.getGame2() == 7 && match.getGame1() <= 5) {
+                match.setSet2(match.getSet1() + 1);
+                resetGames(match);
+            }
         }
     }
 
     private void updateTieBreak(Match match, long playerWhoWinsPoint) {
-        if (match.getPoints1() == 7 && match.getPoints2() < 6) {
-            match.setSet1(match.getSet1() + 1);
-            resetPoints(match);
-            resetGames(match);
-        } else if (match.getPoints2() == 7 && match.getPoints1() < 6) {
-            match.setSet2(match.getSet2() + 1);
-            resetPoints(match);
-            resetGames(match);
-        } else if((match.getPoints1() == 7 && match.getPoints2() == 6)
-        || match.getPoints2() == 7 && match.getPoints1() == 6) {
-            resetPoints(match);
-        } else if (playerWhoWinsPoint == match.getId1()) {
+        if (playerWhoWinsPoint == match.getId1()) {
             match.setPoints1(match.getPoints1() + 1);
         } else {
             match.setPoints2(match.getPoints2() + 1);
+        }
+
+        if (match.getPoints1() == 7 && match.getPoints2() < 6) {
+            match.setSet1(match.getSet1() + 1);
+            resetGames(match);
+        } else if (match.getPoints2() == 7 && match.getPoints1() < 6) {
+            match.setSet2(match.getSet2() + 1);
+            resetGames(match);
+        } else if((match.getPoints1() == 6 && match.getPoints2() == 6)) {
+            resetPoints(match);
         }
     }
 
     private void resetGames(Match match) {
         match.setGame1(0);
         match.setGame2(0);
+        resetPoints(match);
     }
 
     private boolean tieBreakCondition(Match match) {
@@ -69,16 +74,22 @@ public class MatchScoreCalculationService {
             match.setGame2(match.getGame2() + 1);
             resetPoints(match);
         } else if (match.getId1() == playerWhoWinsPoint
-                && ((match.getPoints1() == Points.ADVANTAGE && match.getPoints2() == Points.WIN_THIRD_PITCH)
-                || match.getPoints1() == Points.ADVANTAGE && match.getPoints2() == Points.ADVANTAGE)) {
+                && match.getPoints1() == Points.ADVANTAGE && match.getPoints2() == Points.WIN_THIRD_PITCH) {
             match.setGame1(match.getGame1() + 1);
             resetPoints(match);
         } else if(match.getId2() == playerWhoWinsPoint
-                && ((match.getPoints2() == Points.ADVANTAGE && match.getPoints1() == Points.WIN_THIRD_PITCH)
-                || match.getPoints1() == Points.ADVANTAGE && match.getPoints2() == Points.ADVANTAGE))  {
+                && match.getPoints2() == Points.ADVANTAGE && match.getPoints1() == Points.WIN_THIRD_PITCH)  {
             match.setGame2(match.getGame2() + 1);
             resetPoints(match);
-        } else {
+        } else if(match.getId1() == playerWhoWinsPoint
+                && match.getPoints1() == Points.WIN_THIRD_PITCH && match.getPoints2() == Points.ADVANTAGE )  {
+            match.setPoints2(Points.WIN_THIRD_PITCH);
+            updatePoints(match, playerWhoWinsPoint);
+        } else if(match.getId2() == playerWhoWinsPoint
+                && match.getPoints2() == Points.WIN_THIRD_PITCH && match.getPoints1() == Points.ADVANTAGE )  {
+            match.setPoints1(Points.WIN_THIRD_PITCH);
+            updatePoints(match, playerWhoWinsPoint);
+        }  else {
             updatePoints(match, playerWhoWinsPoint);
         }
     }
@@ -114,7 +125,7 @@ public class MatchScoreCalculationService {
         if (match.getSet1() == 2 && match.getSet2() < 2) {
             return Optional.of(match.getId1());
         } else if (match.getSet2() == 2 && match.getSet1() < 2) {
-            return Optional.of(match.getId1());
+            return Optional.of(match.getId2());
         } else {
             return Optional.empty();
         }
