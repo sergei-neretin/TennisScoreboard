@@ -5,9 +5,9 @@ import com.sergeineretin.tennisScoreboard.model.MatchScoreModel;
 import java.util.List;
 import java.util.Optional;
 
-public interface MatchScoreDao {
+public interface MatchDao {
     Optional<MatchScoreModel> findById(long id);
     List<MatchScoreModel> findAll();
-    void save(MatchScoreModel match);
-    void delete(MatchScoreModel match);
+    void save(MatchScoreModel matchScoreModel);
+    void delete(MatchScoreModel matchScoreModel);
 }

@@ -1,6 +1,7 @@
 package com.sergeineretin.tennisScoreboard.controllers;
 
 import com.sergeineretin.tennisScoreboard.dto.Match;
+import com.sergeineretin.tennisScoreboard.dto.MatchScoreDto;
 import com.sergeineretin.tennisScoreboard.service.FinishedMatchesPersistenceService;
 import com.sergeineretin.tennisScoreboard.service.MatchScoreCalculationService;
 import com.sergeineretin.tennisScoreboard.service.OngoingMatchesService;
@@ -35,13 +36,19 @@ public class MatchScoreController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uuid = req.getParameter("uuid");
         long playerWhoWinsPoint = Long.parseLong(req.getParameter("playerId"));
-        Match match = ongoingMatchesService.getMatch(uuid);
-        matchScoreCalculationService.updateScore(match, playerWhoWinsPoint);
-        Optional<Long> winnerId = matchScoreCalculationService.getWinner(match);
+        matchScoreCalculationService.updateScore(uuid, playerWhoWinsPoint);
+        Optional<Long> winnerId = matchScoreCalculationService.getWinner(uuid);
         if (winnerId.isPresent()) {
+            Match match = ongoingMatchesService.getMatch(uuid);
             ongoingMatchesService.remove(uuid);
-            finishedMatchesPersistenceService.writeMatch(match, winnerId.get());
-            resp.sendRedirect("/new-match");
+            MatchScoreDto matchScoreDto = finishedMatchesPersistenceService.writeMatch(match, winnerId.get());
+            resp.sendRedirect("/finished-match?player1="
+                    + matchScoreDto.getPlayer1().getName()
+                    + "&player2="
+                    + matchScoreDto.getPlayer1().getName()
+                    + "&score1=" + matchScoreDto.getScore1()
+                    + "&score2=" + matchScoreDto.getScore2()
+            );
         } else {
             resp.sendRedirect("/match-score?uuid=" + uuid);
         }

@@ -1,7 +1,7 @@
 package com.sergeineretin.tennisScoreboard.dao.impl;
 
 import com.sergeineretin.tennisScoreboard.dao.PlayerDao;
-import com.sergeineretin.tennisScoreboard.model.PlayerModel;
+import com.sergeineretin.tennisScoreboard.model.Player;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import lombok.extern.slf4j.Slf4j;
@@ -20,24 +20,24 @@ public class PlayerDaoImpl implements PlayerDao {
     }
 
     @Override
-    public Optional<PlayerModel> findById(long id) {
+    public Optional<Player> findById(long id) {
         try(Session session = factory.openSession()) {
             session.beginTransaction();
-            PlayerModel playerModel = session.get(PlayerModel.class, id);
+            Player player = session.get(Player.class, id);
             session.getTransaction().commit();
-            return Optional.ofNullable(playerModel);
+            return Optional.ofNullable(player);
         }
     }
 
     @Override
-    public Optional<PlayerModel> findByName(String name) {
+    public Optional<Player> findByName(String name) {
         try(Session session = factory.openSession()) {
             session.beginTransaction();
-            Query query = session.createQuery("from PlayerModel where name = :name", PlayerModel.class);
+            Query query = session.createQuery("from PlayerModel where name = :name", Player.class);
             query.setParameter("name", name);
-            PlayerModel playerModel = (PlayerModel) query.getSingleResult();
+            Player player = (Player) query.getSingleResult();
             session.getTransaction().commit();
-            return Optional.of(playerModel);
+            return Optional.of(player);
         } catch (NoResultException e) {
             return Optional.empty();
         }
@@ -45,16 +45,16 @@ public class PlayerDaoImpl implements PlayerDao {
     }
 
     @Override
-    public List<PlayerModel> findAll() {
+    public List<Player> findAll() {
         return List.of();
     }
 
     @Override
-    public void save(PlayerModel playerModel) {
+    public void save(Player player) {
         Transaction transaction = null;
         try(Session session = factory.openSession()) {
             transaction = session.beginTransaction();
-            session.persist(playerModel);
+            session.persist(player);
             session.getTransaction().commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -65,7 +65,7 @@ public class PlayerDaoImpl implements PlayerDao {
     }
 
     @Override
-    public void delete(PlayerModel match) {
+    public void delete(Player match) {
 
     }
 }

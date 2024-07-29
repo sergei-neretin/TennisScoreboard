@@ -11,6 +11,11 @@ public class MatchScoreCalculationService {
     public MatchScoreCalculationService() {
         ongoingMatchesService = OngoingMatchesService.getInstance();
     }
+    public void updateScore(String uuid, long playerWhoWinsPoint) {
+        Match match = ongoingMatchesService.getMatch(uuid);
+        updateSet(match, playerWhoWinsPoint);
+    }
+
     public void updateScore(Match match, long playerWhoWinsPoint) {
         updateSet(match, playerWhoWinsPoint);
     }
@@ -119,6 +124,11 @@ public class MatchScoreCalculationService {
         } else {
             return Points.ADVANTAGE;
         }
+    }
+
+    public Optional<Long> getWinner(String uuid) {
+        Match match = ongoingMatchesService.getMatch(uuid);
+        return getWinner(match);
     }
 
     public Optional<Long> getWinner(Match match) {

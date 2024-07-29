@@ -1,14 +1,14 @@
 package com.sergeineretin.tennisScoreboard.dao;
 
-import com.sergeineretin.tennisScoreboard.model.PlayerModel;
+import com.sergeineretin.tennisScoreboard.model.Player;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface PlayerDao {
-    Optional<PlayerModel> findById(long id);
-    Optional<PlayerModel> findByName(String name);
-    List<PlayerModel> findAll();
-    void save(PlayerModel match);
-    void delete(PlayerModel match);
+    Optional<Player> findById(long id);
+    Optional<Player> findByName(String name);
+    List<Player> findAll();
+    void save(Player match);
+    void delete(Player match);
 }

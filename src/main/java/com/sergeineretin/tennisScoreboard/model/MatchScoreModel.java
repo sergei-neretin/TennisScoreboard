@@ -16,14 +16,20 @@ public class MatchScoreModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private long id;
 
-    @Column(name = "Player1", nullable = false)
-    private long player1Id;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "Player1", nullable = false)
+    private Player player1;
 
-    @Column(name = "Player2", nullable = false)
-    private long player2Id;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "Player2", nullable = false)
+    private Player player2;
 
-    @Column(name = "Winner")
-    private long winnerId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "Winner", nullable = false)
+    private Player winner;
+
+    private int score1;
+    private int score2;
 }

@@ -2,7 +2,6 @@
 <%@page import="com.sergeineretin.tennisScoreboard.dto.Match"%>
 <%@page import="com.sergeineretin.tennisScoreboard.service.OngoingMatchesService"%>
 <%@page import="java.util.UUID"%>
-<%@page import="com.sergeineretin.tennisScoreboard.service.PlayerService"%>
 <%@page import="com.sergeineretin.tennisScoreboard.Points"%>
 
 <!DOCTYPE html>
@@ -15,18 +14,15 @@
 <body>
     <%
     OngoingMatchesService ongoingMatchesService = OngoingMatchesService.getInstance();
-    PlayerService playerService = PlayerService.getInstance();
     String uuidString = request.getParameter("uuid");
     Match match = ongoingMatchesService.getMatch(uuidString);
-    String name1 = playerService.getPlayer(match.getId1()).getName();
-    String name2 = playerService.getPlayer(match.getId2()).getName();
     %>
     <h1>Match Score</h1>
     <table>
         <tr>
-            <th><%= name1 %></th>
+            <th>Player1</th>
             <th></th>
-            <th><%= name2 %></th>
+            <th>Player2</th>
         </tr>
         <tr>
             <th><%= match.getSet1()%></th>
