@@ -1,0 +1,21 @@
+INSERT INTO Players (Name) VALUES ('John Doe');
+INSERT INTO Players (Name) VALUES ('Jane Smith');
+INSERT INTO Players (Name) VALUES ('Alice Johnson');
+INSERT INTO Players (Name) VALUES ('Bob Brown');
+INSERT INTO Players (Name) VALUES ('Charlie Davis');
+INSERT INTO Players (Name) VALUES ('Diana Evans');
+INSERT INTO Players (Name) VALUES ('Ethan Miller');
+INSERT INTO Players (Name) VALUES ('Fiona Wilson');
+INSERT INTO Players (Name) VALUES ('George Moore');
+INSERT INTO Players (Name) VALUES ('Hannah Taylor');
+
+INSERT INTO Matches (Player1, Player2, Winner) VALUES (1, 2, 1);
+INSERT INTO Matches (Player1, Player2, Winner) VALUES (3, 4, 3);
+INSERT INTO Matches (Player1, Player2, Winner) VALUES (5, 6, 5);
+INSERT INTO Matches (Player1, Player2, Winner) VALUES (7, 8, 7);
+INSERT INTO Matches (Player1, Player2, Winner) VALUES (9, 10, 9);
+INSERT INTO Matches (Player1, Player2, Winner) VALUES (1, 3, 3);
+INSERT INTO Matches (Player1, Player2, Winner) VALUES (2, 4, 4);
+INSERT INTO Matches (Player1, Player2, Winner) VALUES (5, 7, 7);
+INSERT INTO Matches (Player1, Player2, Winner) VALUES (6, 8, 8);
+INSERT INTO Matches (Player1, Player2, Winner) VALUES (9, 1, 9);

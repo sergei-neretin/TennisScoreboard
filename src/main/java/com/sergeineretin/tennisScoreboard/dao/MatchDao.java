@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface MatchDao {
     Optional<MatchScoreModel> findById(long id);
+    List<MatchScoreModel> findByPlayerName(String name);
     List<MatchScoreModel> findAll();
     void save(MatchScoreModel matchScoreModel);
     void delete(MatchScoreModel matchScoreModel);

@@ -45,7 +45,7 @@ public class MatchScoreController extends HttpServlet {
             resp.sendRedirect("/finished-match?player1="
                     + matchScoreDto.getPlayer1().getName()
                     + "&player2="
-                    + matchScoreDto.getPlayer1().getName()
+                    + matchScoreDto.getPlayer2().getName()
                     + "&score1=" + matchScoreDto.getScore1()
                     + "&score2=" + matchScoreDto.getScore2()
             );
