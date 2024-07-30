@@ -29,7 +29,4 @@ public class MatchScoreModel {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "Winner", nullable = false)
     private Player winner;
-
-    private int score1;
-    private int score2;
 }

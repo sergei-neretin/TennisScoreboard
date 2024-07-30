@@ -1,13 +1,20 @@
 package com.sergeineretin.tennisScoreboard.dao.impl;
 
 import com.sergeineretin.tennisScoreboard.dao.PlayerDao;
+import com.sergeineretin.tennisScoreboard.model.MatchScoreModel;
 import com.sergeineretin.tennisScoreboard.model.Player;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Root;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import org.hibernate.query.criteria.HibernateCriteriaBuilder;
+import org.hibernate.query.criteria.JpaPredicate;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,16 +39,16 @@ public class PlayerDaoImpl implements PlayerDao {
     @Override
     public Optional<Player> findByName(String name) {
         try(Session session = factory.openSession()) {
-            session.beginTransaction();
-            Query query = session.createQuery("from PlayerModel where name = :name", Player.class);
-            query.setParameter("name", name);
-            Player player = (Player) query.getSingleResult();
-            session.getTransaction().commit();
-            return Optional.of(player);
+            HibernateCriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Player> cr = cb.createQuery(Player.class);
+            Root<Player> root = cr.from(Player.class);
+            cr.select(root).where(cb.equal(root.get("name"), name));
+
+            Query<Player> query = session.createQuery(cr);
+            return Optional.of(query.getSingleResult());
         } catch (NoResultException e) {
             return Optional.empty();
         }
-
     }
 
     @Override

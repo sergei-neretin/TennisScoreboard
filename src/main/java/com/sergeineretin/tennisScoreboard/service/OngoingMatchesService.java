@@ -11,6 +11,7 @@ import org.hibernate.cfg.Configuration;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -38,19 +39,25 @@ public class OngoingMatchesService {
 
     public String add(String name1, String name2) {
         UUID uuid = UUID.randomUUID();
-        Player player1 = Player.builder().name(name1).build();
-        Player player2 = Player.builder().name(name2).build();
-        playerDao.save(player1);
-        playerDao.save(player2);
-        Match match = Match.builder()
-                .id1(player1.getId())
-                .id2(player2.getId())
-                .build();
+        long id1 = getPlayerId(name1);
+        long id2 = getPlayerId(name2);
+        Match match = Match.builder().id1(id1).id2(id2).build();
         ongoingMatches.put(uuid, match);
         log.info(MessageFormat.format("Added new ongoing match: {0}",
                 match));
 
         return uuid.toString();
+    }
+
+    private long getPlayerId(String name) {
+        Optional<Player> optionalPlayer = playerDao.findByName(name);
+        if (optionalPlayer.isPresent()) {
+            return optionalPlayer.get().getId();
+        } else {
+            Player player = Player.builder().name(name).build();
+            playerDao.save(player);
+            return player.getId();
+        }
     }
 
     public Match getMatch(String uuidString) {

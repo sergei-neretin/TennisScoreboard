@@ -1,18 +1,18 @@
 package com.sergeineretin.tennisScoreboard.dao.impl;
 
+import com.sergeineretin.tennisScoreboard.Utils;
 import com.sergeineretin.tennisScoreboard.dao.MatchDao;
 import com.sergeineretin.tennisScoreboard.model.MatchScoreModel;
-import com.sergeineretin.tennisScoreboard.model.Player;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.JoinType;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.*;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
-import org.hibernate.query.criteria.HibernateCriteriaBuilder;
-import org.hibernate.query.criteria.JpaPredicate;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 
 
 import java.util.List;
@@ -30,18 +30,25 @@ public class MatchDaoImpl implements MatchDao {
     }
 
     @Override
-    public List<MatchScoreModel> findByPlayerName(String name) {
+    public List<MatchScoreModel> findByPlayerName(String name, int page) {
         try(Session session = factory.openSession()) {
-            HibernateCriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<MatchScoreModel> query = cb.createQuery(MatchScoreModel.class);
             Root<MatchScoreModel> root = query.from(MatchScoreModel.class);
             root.fetch("player1", JoinType.LEFT);
             root.fetch("player2", JoinType.LEFT);
-            JpaPredicate likePlayer1Name = cb.like(root.get("player1").get("name"), wrapToLike(name));
-            JpaPredicate likePlayer2Name = cb.like(root.get("player2").get("name"), wrapToLike(name));
+            Predicate likePlayer1Name = cb.like(root.get("player1").get("name"), wrapToLike(name));
+            Predicate likePlayer2Name = cb.like(root.get("player2").get("name"), wrapToLike(name));
             query.where(cb.or(likePlayer1Name, likePlayer2Name));
-            return session.createQuery(query).getResultList();
+            query.orderBy(cb.asc(root.get("id")));
 
+            TypedQuery<MatchScoreModel> typedQuery = session.createQuery(query);
+
+            typedQuery.setFirstResult((page-1) * Utils.PAGE_SIZE);
+            typedQuery.setMaxResults(Utils.PAGE_SIZE);
+            System.out.println((page - 1) * Utils.PAGE_SIZE);
+
+            return typedQuery.getResultList();
         }
     }
 
@@ -73,5 +80,19 @@ public class MatchDaoImpl implements MatchDao {
     @Override
     public void delete(MatchScoreModel matchScoreModel) {
 
+    }
+
+    public long getNumberOfMatches(String name) {
+        try (Session session = factory.openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Long> query = cb.createQuery(Long.class);
+            Root<MatchScoreModel> root = query.from(MatchScoreModel.class);
+            Predicate likePlayer1Name = cb.like(root.get("player1").get("name"), wrapToLike(name));
+            Predicate likePlayer2Name = cb.like(root.get("player2").get("name"), wrapToLike(name));
+            query.where(cb.or(likePlayer1Name, likePlayer2Name));
+            query.select(cb.count(root));
+            TypedQuery<Long> typedQuery = session.createQuery(query);
+            return typedQuery.getSingleResult();
+        }
     }
 }

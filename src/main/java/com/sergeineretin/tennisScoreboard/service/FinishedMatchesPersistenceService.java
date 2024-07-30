@@ -37,7 +37,10 @@ public class FinishedMatchesPersistenceService {
         MatchScoreModel matchScoreModel = convertToMatchScoreModel(match, winnerId);
         matchDao.save(matchScoreModel);
         log.info(MessageFormat.format("Written match: {0}", matchScoreModel));
-        return modelMapper.map(matchScoreModel, MatchScoreDto.class);
+        MatchScoreDto matchScoreDto = modelMapper.map(matchScoreModel, MatchScoreDto.class);
+        matchScoreDto.setScore1(match.getSet1());
+        matchScoreDto.setScore2(match.getSet2());
+        return matchScoreDto;
     }
 
     private MatchScoreModel convertToMatchScoreModel(Match match, Long winnerId) {
@@ -47,14 +50,10 @@ public class FinishedMatchesPersistenceService {
         if (match.getId1() == winnerId) {
             return MatchScoreModel.builder().player1(player1).player2(player2)
                     .winner(player1)
-                    .score1(match.getSet1())
-                    .score2(match.getSet2())
                     .build();
         } else {
             return MatchScoreModel.builder().player1(player1).player2(player2)
                     .winner(player2)
-                    .score1(match.getSet1())
-                    .score2(match.getSet2())
                     .build();
         }
     }

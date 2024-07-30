@@ -1,6 +1,5 @@
 package com.sergeineretin.tennisScoreboard.dto;
 
-import com.sergeineretin.tennisScoreboard.model.Player;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

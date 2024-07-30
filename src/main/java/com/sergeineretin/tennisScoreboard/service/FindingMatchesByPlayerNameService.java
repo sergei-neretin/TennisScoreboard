@@ -1,7 +1,8 @@
 package com.sergeineretin.tennisScoreboard.service;
 
+import com.sergeineretin.tennisScoreboard.Utils;
 import com.sergeineretin.tennisScoreboard.dao.impl.MatchDaoImpl;
-import com.sergeineretin.tennisScoreboard.dto.MatchScoreDto;
+import com.sergeineretin.tennisScoreboard.dto.MatchDto;
 import com.sergeineretin.tennisScoreboard.model.MatchScoreModel;
 import com.sergeineretin.tennisScoreboard.model.Player;
 import org.hibernate.SessionFactory;
@@ -32,10 +33,14 @@ public class FindingMatchesByPlayerNameService {
         modelMapper = new ModelMapper();
     }
 
-    public List<MatchScoreDto> find(String name) {
-        List<MatchScoreModel> byPlayerName = matchScoreDao.findByPlayerName(name);
+    public List<MatchDto> find(String name, int page) {
+        List<MatchScoreModel> byPlayerName = matchScoreDao.findByPlayerName(name, page);
         return byPlayerName.stream()
-                .map(model -> modelMapper.map(model, MatchScoreDto.class))
+                .map(model -> modelMapper.map(model, MatchDto.class))
                 .toList();
+    }
+
+    public long getNumberOfPages(String name) {
+        return matchScoreDao.getNumberOfMatches(name) / Utils.PAGE_SIZE;
     }
 }

@@ -15,6 +15,7 @@ public class MatchesController extends HttpServlet {
         try {
             int page = getPage(req);
             String filterByPlayerName = req.getParameter("filter_by_player_name");
+            req.setAttribute("filter_by_player_name", filterByPlayerName);
             req.getRequestDispatcher("matches.jsp").forward(req, resp);
         } catch (NumberFormatException e) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
