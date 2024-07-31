@@ -25,35 +25,40 @@ long numberOfPages = findingMatchesByPlayerNameService.getNumberOfPages(name);
 %>
 <h1>Matches</h1>
 <form class="matchesSearch" action="/matches" method="get">
-    <label for="filter_by_player_name">Player Name:</label>
-    <input type="text" id="filter_by_player_name" name="filter_by_player_name" placeholder="John Doe" >
-    <input type="submit" value="Find">
-    <table>
-        <tr>
-            <th>Player 1</th>
-            <th>Player 2</th>
-            <th>Winner</th>
-        </tr>
-        <%
-        for(MatchDto match : matches) {
-        %>
-        <tr>
-            <th><%= match.getPlayer1().getName()%></th>
-            <th><%= match.getPlayer2().getName()%></th>
-            <th><%= match.getWinner().getName()%></th>
-        </tr>
-        <%
-        }
-        %>
-    </table>
-    <button type="submit" class="pages" name="page" value="1"> 1</button>
-    <%
-    for(int i = 2; i <= numberOfPages; i++) {
-    %>
-    <button type="submit" class="pages" name="page" value="<%= i%>"> <%= i%></button>
-    <%
-    }
-    %>
+   <div class="form-container">
+       <div class="form-group"><label for="filter_by_player_name">Player Name:</label></div>
+       <div class="form-group"><input type="text" id="filter_by_player_name" name="filter_by_player_name" placeholder="John Doe" ></div>
+       <div class="form-group"><input type="submit" value="Find"></div>
+
+       <table>
+           <tr>
+               <th>Player 1</th>
+               <th>Player 2</th>
+               <th>Winner</th>
+           </tr>
+           <%
+           for(MatchDto match : matches) {
+           %>
+           <tr>
+               <th><%= match.getPlayer1().getName()%></th>
+               <th><%= match.getPlayer2().getName()%></th>
+               <th><%= match.getWinner().getName()%></th>
+           </tr>
+           <%
+           }
+           %>
+       </table>
+       <div class="pages-container">
+           <button type="submit" class="page" name="page" value="1"> 1</button>
+           <%
+           for(int i = 2; i <= numberOfPages; i++) {
+           %>
+           <button type="submit" class="page" name="page" value="<%= i%>"> <%= i%></button>
+           <%
+           }
+           %>
+       </div>
+   </div>
 </form>
 </body>
 </html>

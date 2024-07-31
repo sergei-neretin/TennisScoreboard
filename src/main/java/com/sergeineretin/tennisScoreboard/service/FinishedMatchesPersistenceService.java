@@ -5,6 +5,7 @@ import com.sergeineretin.tennisScoreboard.dao.PlayerDao;
 import com.sergeineretin.tennisScoreboard.dao.impl.MatchDaoImpl;
 import com.sergeineretin.tennisScoreboard.dao.impl.PlayerDaoImpl;
 import com.sergeineretin.tennisScoreboard.dto.Match;
+import com.sergeineretin.tennisScoreboard.dto.MatchDto;
 import com.sergeineretin.tennisScoreboard.dto.MatchScoreDto;
 import com.sergeineretin.tennisScoreboard.model.MatchScoreModel;
 import com.sergeineretin.tennisScoreboard.model.Player;
@@ -14,7 +15,7 @@ import org.hibernate.cfg.Configuration;
 import org.modelmapper.ModelMapper;
 
 import java.text.MessageFormat;
-import java.util.Optional;
+
 
 @Slf4j
 public class FinishedMatchesPersistenceService {
@@ -37,10 +38,14 @@ public class FinishedMatchesPersistenceService {
         MatchScoreModel matchScoreModel = convertToMatchScoreModel(match, winnerId);
         matchDao.save(matchScoreModel);
         log.info(MessageFormat.format("Written match: {0}", matchScoreModel));
-        MatchScoreDto matchScoreDto = modelMapper.map(matchScoreModel, MatchScoreDto.class);
-        matchScoreDto.setScore1(match.getSet1());
-        matchScoreDto.setScore2(match.getSet2());
-        return matchScoreDto;
+        MatchDto matchDto = modelMapper.map(matchScoreModel, MatchDto.class);
+        return MatchScoreDto.builder()
+                .player1(matchDto.getPlayer1())
+                .player2(matchDto.getPlayer2())
+                .winner(matchDto.getWinner())
+                .score1(match.getSet1())
+                .score2(match.getSet2())
+                .build();
     }
 
     private MatchScoreModel convertToMatchScoreModel(Match match, Long winnerId) {

@@ -1,11 +1,6 @@
 body {
     font-family: Arial, sans-serif;
     background-color: lightblue;
-
-}
-
-input, label {
-    display:block;
 }
 
 h1 {
@@ -13,39 +8,55 @@ h1 {
     text-align: center;
 }
 
-a {
+.start {
+    width: 70%;
     display: block;
-    margin-top: 10px;
+    margin: 20px auto;
 }
 
-.start{
-     width: 70%;
-}
-
-
-table {
+.form-container, .table-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px; /* Скругление углов */
+    width: 70%;
     margin: 0 auto;
-    border-collapse: collapse;
-    width: 50%;
-    border-style: dotted;
-    border-width: thick;
+    overflow: hidden; /* Убедитесь, что ничего не выходит за пределы */
 }
-
 th, td {
-    padding: 10px;
-    text-align: center;
+  border-bottom: 1px solid #ddd;
+  gap: 20px;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
-.pages {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 5px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
+.pages-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px; /* Скругление углов */
+    width: 70%;
+    margin: 0 auto;
+    overflow: hidden;
+    align-self: flex-end;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
 }

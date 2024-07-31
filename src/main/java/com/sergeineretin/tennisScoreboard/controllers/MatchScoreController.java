@@ -5,6 +5,7 @@ import com.sergeineretin.tennisScoreboard.dto.MatchScoreDto;
 import com.sergeineretin.tennisScoreboard.service.FinishedMatchesPersistenceService;
 import com.sergeineretin.tennisScoreboard.service.MatchScoreCalculationService;
 import com.sergeineretin.tennisScoreboard.service.OngoingMatchesService;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -42,13 +43,9 @@ public class MatchScoreController extends HttpServlet {
             Match match = ongoingMatchesService.getMatch(uuid);
             ongoingMatchesService.remove(uuid);
             MatchScoreDto matchScoreDto = finishedMatchesPersistenceService.writeMatch(match, winnerId.get());
-            resp.sendRedirect("/finished-match?player1="
-                    + matchScoreDto.getPlayer1().getName()
-                    + "&player2="
-                    + matchScoreDto.getPlayer2().getName()
-                    + "&score1=" + matchScoreDto.getScore1()
-                    + "&score2=" + matchScoreDto.getScore2()
-            );
+            req.setAttribute("match", matchScoreDto);
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/finished-match.jsp");
+            dispatcher.forward(req, resp);
         } else {
             resp.sendRedirect("/match-score?uuid=" + uuid);
         }

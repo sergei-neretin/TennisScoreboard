@@ -18,65 +18,67 @@
     Match match = ongoingMatchesService.getMatch(uuidString);
     %>
     <h1>Match Score</h1>
-    <table>
-        <tr>
-            <th>Player1</th>
-            <th></th>
-            <th>Player2</th>
-        </tr>
-        <tr>
-            <th><%= match.getSet1()%></th>
-            <th>:</th>
-            <th><%= match.getSet2()%></th>
-        </tr>
-        <tr>
-            <th><%=match.getGame1()%></th>
-            <th>:</th>
-            <th><%=match.getGame2()%></th>
-        </tr>
-        <tr>
-            <th><%
-                if(match.getPoints1() != Points.ADVANTAGE) {
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>Player1</th>
+                <th></th>
+                <th>Player2</th>
+            </tr>
+            <tr>
+                <th><%= match.getSet1()%></th>
+                <th>:</th>
+                <th><%= match.getSet2()%></th>
+            </tr>
+            <tr>
+                <th><%=match.getGame1()%></th>
+                <th>:</th>
+                <th><%=match.getGame2()%></th>
+            </tr>
+            <tr>
+                <th><%
+                    if(match.getPoints1() != Points.ADVANTAGE) {
                     out.println(match.getPoints1());
-                } else {
+                    } else {
                     out.println("ADVANTAGE");
-                }
-                %>
-            </th>
-            <th>
-                <%
-                if(match.getGame1() == 6 && match.getGame2() == 6) {
+                    }
+                    %>
+                </th>
+                <th>
+                    <%
+                    if(match.getGame1() == 6 && match.getGame2() == 6) {
                     out.println("TIE BREAK");
-                } else {
+                    } else {
                     out.println(":");
-                }
-                %>
-            </th>
-            <th>
-                <%
-                if(match.getPoints2() != Points.ADVANTAGE) {
+                    }
+                    %>
+                </th>
+                <th>
+                    <%
+                    if(match.getPoints2() != Points.ADVANTAGE) {
                     out.println(match.getPoints2());
-                } else {
+                    } else {
                     out.println("ADVANTAGE");
-                }
-                %>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                <form action="/match-score" method="post">
-                    <input type="hidden" name="uuid" value="<%= uuidString %>">
-                    <button type="submit" name="playerId" value="<%= match.getId1()%>"> player 1 wins the current point</button>
-                </form>
-            </th>
-            <th></th>
-            <th>
-                <form action="/match-score" method="post">
-                    <input type="hidden" name="uuid" value="<%= uuidString %>">
-                    <button type="submit" name="playerId" value="<%= match.getId2()%>"> player 2 wins the current point</button>
-                </form>
-            </th>
-        </tr>
-    </table>
+                    }
+                    %>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <form action="/match-score" method="post">
+                        <input type="hidden" name="uuid" value="<%= uuidString %>">
+                        <button type="submit" name="playerId" value="<%= match.getId1()%>"> player 1 wins the current point</button>
+                    </form>
+                </th>
+                <th></th>
+                <th>
+                    <form action="/match-score" method="post">
+                        <input type="hidden" name="uuid" value="<%= uuidString %>">
+                        <button type="submit" name="playerId" value="<%= match.getId2()%>"> player 2 wins the current point</button>
+                    </form>
+                </th>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>
