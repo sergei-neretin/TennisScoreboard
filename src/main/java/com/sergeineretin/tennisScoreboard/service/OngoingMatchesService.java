@@ -10,18 +10,18 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class OngoingMatchesService {
     private static OngoingMatchesService instance;
-    private HashMap<UUID, Match> ongoingMatches;
+    private ConcurrentHashMap<UUID, Match> ongoingMatches;
     private PlayerDao playerDao;
 
     private OngoingMatchesService() {
-        ongoingMatches = new HashMap<>();
+        ongoingMatches = new ConcurrentHashMap<>();
         SessionFactory factory = new Configuration()
                 .configure("hibernate.cfg.xml")
                 .addAnnotatedClass(Player.class)
