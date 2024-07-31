@@ -18,4 +18,17 @@ public class Match {
     private int game2;
     private int set1;
     private int set2;
+
+    public void resetSets() {
+        set1 = 0;
+        set2 = 0;
+    }
+    public void resetGames() {
+        game1 = 0;
+        game2 = 0;
+    }
+    public void resetPoints() {
+        points1 = 0;
+        points2 = 0;
+    }
 }

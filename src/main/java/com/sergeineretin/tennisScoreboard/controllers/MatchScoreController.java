@@ -5,6 +5,9 @@ import com.sergeineretin.tennisScoreboard.exceptions.MatchNotFoundException;
 import com.sergeineretin.tennisScoreboard.service.FinishedMatchesPersistenceService;
 import com.sergeineretin.tennisScoreboard.service.MatchScoreCalculationService;
 import com.sergeineretin.tennisScoreboard.service.OngoingMatchesService;
+import com.sergeineretin.tennisScoreboard.service.matchScoreCalculation.MatchScoreCalculationFacade;
+import com.sergeineretin.tennisScoreboard.service.matchScoreCalculation.updaters.SetsUpdater;
+import com.sergeineretin.tennisScoreboard.service.matchScoreCalculation.updaters.WinnerGetter;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -23,7 +26,9 @@ public class MatchScoreController extends HttpServlet {
     private OngoingMatchesService ongoingMatchesService;
     @Override
     public void init(ServletConfig config) throws ServletException {
-        matchScoreCalculationService = new MatchScoreCalculationService();
+        SetsUpdater setsUpdater = MatchScoreCalculationFacade.getSetUpdater();
+        WinnerGetter winnerGetter = MatchScoreCalculationFacade.getWinnerGetter();
+        matchScoreCalculationService = new MatchScoreCalculationService(setsUpdater, winnerGetter);
         finishedMatchesPersistenceService = new FinishedMatchesPersistenceService();
         ongoingMatchesService = OngoingMatchesService.getInstance();
     }
