@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@page import="com.sergeineretin.tennisScoreboard.service.FindingMatchesByPlayerNameService" %>
 <%@page import="com.sergeineretin.tennisScoreboard.dto.MatchDto" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.sergeineretin.tennisScoreboard.Utils" %>
@@ -13,15 +12,14 @@
 </head>
 <body>
 <%
-FindingMatchesByPlayerNameService findingMatchesByPlayerNameService = FindingMatchesByPlayerNameService.getInstance();
 String name = request.getParameter("filter_by_player_name");
 String pageString = request.getParameter("page");
 int pageNumber = 1;
 if(pageString != null && !pageString.isEmpty()) {
     pageNumber = Integer.parseInt(pageString);
 }
-List<MatchDto> matches = findingMatchesByPlayerNameService.find(name, pageNumber);
-long numberOfPages = findingMatchesByPlayerNameService.getNumberOfPages(name);
+List<MatchDto> matches = (List<MatchDto>)request.getAttribute("matches");
+long numberOfPages = (long)request.getAttribute("numberOfPages");
 %>
 <h1>Matches</h1>
 <form class="matchesSearch" action="/matches" method="get">

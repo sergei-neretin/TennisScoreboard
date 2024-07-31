@@ -30,7 +30,7 @@ public class MatchDaoImpl implements MatchDao {
     }
 
     @Override
-    public List<MatchScoreModel> findByPlayerName(String name, int page) {
+    public List<MatchScoreModel> findByPlayerName(String name, long page) {
         try(Session session = factory.openSession()) {
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<MatchScoreModel> query = cb.createQuery(MatchScoreModel.class);
@@ -44,7 +44,7 @@ public class MatchDaoImpl implements MatchDao {
 
             TypedQuery<MatchScoreModel> typedQuery = session.createQuery(query);
 
-            typedQuery.setFirstResult((page-1) * Utils.PAGE_SIZE);
+            typedQuery.setFirstResult((int)(page-1) * Utils.PAGE_SIZE);
             typedQuery.setMaxResults(Utils.PAGE_SIZE);
             System.out.println((page - 1) * Utils.PAGE_SIZE);
 

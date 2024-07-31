@@ -33,7 +33,7 @@ public class FindingMatchesByPlayerNameService {
         modelMapper = new ModelMapper();
     }
 
-    public List<MatchDto> find(String name, int page) {
+    public List<MatchDto> find(String name, Long page) {
         List<MatchScoreModel> byPlayerName = matchScoreDao.findByPlayerName(name, page);
         return byPlayerName.stream()
                 .map(model -> modelMapper.map(model, MatchDto.class))
@@ -41,6 +41,8 @@ public class FindingMatchesByPlayerNameService {
     }
 
     public long getNumberOfPages(String name) {
-        return matchScoreDao.getNumberOfMatches(name) / Utils.PAGE_SIZE;
+        long numberOfMatches = matchScoreDao.getNumberOfMatches(name);
+        long numberOfPages = (long) Math.ceil((double) numberOfMatches / Utils.PAGE_SIZE);
+        return Math.max(numberOfPages, 1);
     }
 }

@@ -5,7 +5,6 @@ import com.sergeineretin.tennisScoreboard.dao.PlayerDao;
 import com.sergeineretin.tennisScoreboard.dao.impl.MatchDaoImpl;
 import com.sergeineretin.tennisScoreboard.dao.impl.PlayerDaoImpl;
 import com.sergeineretin.tennisScoreboard.dto.Match;
-import com.sergeineretin.tennisScoreboard.dto.MatchDto;
 import com.sergeineretin.tennisScoreboard.model.MatchScoreModel;
 import com.sergeineretin.tennisScoreboard.model.Player;
 import lombok.extern.slf4j.Slf4j;
