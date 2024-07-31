@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class Match {
-    private long id1;
-    private long id2;
+    private String name1;
+    private String name2;
     private int points1;
     private int points2;
     private int game1;

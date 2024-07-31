@@ -36,13 +36,13 @@ public class MatchScoreController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uuid = req.getParameter("uuid");
-        long playerWhoWinsPoint = Long.parseLong(req.getParameter("playerId"));
-        matchScoreCalculationService.updateScore(uuid, playerWhoWinsPoint);
-        Optional<Long> winnerId = matchScoreCalculationService.getWinner(uuid);
-        if (winnerId.isPresent()) {
+        String nameOfPointWinner = req.getParameter("playerName");
+        matchScoreCalculationService.updateScore(uuid, nameOfPointWinner);
+        Optional<String> winnerName = matchScoreCalculationService.getWinner(uuid);
+        if (winnerName.isPresent()) {
             Match match = ongoingMatchesService.getMatch(uuid);
             ongoingMatchesService.remove(uuid);
-            MatchScoreDto matchScoreDto = finishedMatchesPersistenceService.writeMatch(match, winnerId.get());
+            MatchScoreDto matchScoreDto = finishedMatchesPersistenceService.writeMatch(match, winnerName.get());
             req.setAttribute("match", matchScoreDto);
             RequestDispatcher dispatcher = req.getRequestDispatcher("/finished-match.jsp");
             dispatcher.forward(req, resp);

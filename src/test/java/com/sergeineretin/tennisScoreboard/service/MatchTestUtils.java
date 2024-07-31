@@ -7,8 +7,8 @@ public class MatchTestUtils {
 
     public static Match getMatch() {
         return Match.builder()
-                .id1(1)
-                .id2(2)
+                .name1("John Doe")
+                .name2("Jane Doe")
                 .build();
     }
 }

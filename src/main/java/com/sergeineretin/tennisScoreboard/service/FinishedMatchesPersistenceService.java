@@ -15,6 +15,8 @@ import org.hibernate.cfg.Configuration;
 import org.modelmapper.ModelMapper;
 
 import java.text.MessageFormat;
+import java.util.Objects;
+import java.util.Optional;
 
 
 @Slf4j
@@ -34,8 +36,8 @@ public class FinishedMatchesPersistenceService {
         this.modelMapper = new ModelMapper();
     }
 
-    public MatchScoreDto writeMatch(Match match, Long winnerId) {
-        MatchScoreModel matchScoreModel = convertToMatchScoreModel(match, winnerId);
+    public MatchScoreDto writeMatch(Match match, String winnerName) {
+        MatchScoreModel matchScoreModel = convertToMatchScoreModel(match, winnerName);
         matchDao.save(matchScoreModel);
         log.info(MessageFormat.format("Written match: {0}", matchScoreModel));
         MatchDto matchDto = modelMapper.map(matchScoreModel, MatchDto.class);
@@ -48,11 +50,11 @@ public class FinishedMatchesPersistenceService {
                 .build();
     }
 
-    private MatchScoreModel convertToMatchScoreModel(Match match, Long winnerId) {
-        Player player1 = playerDao.findById(match.getId1()).get();
-        Player player2 = playerDao.findById(match.getId2()).get();
+    private MatchScoreModel convertToMatchScoreModel(Match match, String winnerName) {
+        Player player1 = findOrSavePlayer(match.getName1());
+        Player player2 = findOrSavePlayer(match.getName2());
 
-        if (match.getId1() == winnerId) {
+        if (Objects.equals(match.getName1(), winnerName)) {
             return MatchScoreModel.builder().player1(player1).player2(player2)
                     .winner(player1)
                     .build();
@@ -60,6 +62,17 @@ public class FinishedMatchesPersistenceService {
             return MatchScoreModel.builder().player1(player1).player2(player2)
                     .winner(player2)
                     .build();
+        }
+    }
+
+    private Player findOrSavePlayer(String name) {
+        Optional<Player> optionalPlayer = playerDao.findByName(name);
+        if (optionalPlayer.isPresent()) {
+            return optionalPlayer.get();
+        } else {
+            Player player = Player.builder().name(name).build();
+            playerDao.save(player);
+            return player;
         }
     }
 }

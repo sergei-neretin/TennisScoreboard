@@ -3,24 +3,25 @@ package com.sergeineretin.tennisScoreboard.service;
 import com.sergeineretin.tennisScoreboard.Points;
 import com.sergeineretin.tennisScoreboard.dto.Match;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class MatchScoreCalculationService {
-    private OngoingMatchesService ongoingMatchesService;
+    private final OngoingMatchesService ongoingMatchesService;
 
     public MatchScoreCalculationService() {
         ongoingMatchesService = OngoingMatchesService.getInstance();
     }
-    public void updateScore(String uuid, long playerWhoWinsPoint) {
+    public void updateScore(String uuid, String playerWhoWinsPoint) {
         Match match = ongoingMatchesService.getMatch(uuid);
         updateSet(match, playerWhoWinsPoint);
     }
 
-    public void updateScore(Match match, long playerWhoWinsPoint) {
+    public void updateScore(Match match, String playerWhoWinsPoint) {
         updateSet(match, playerWhoWinsPoint);
     }
 
-    private void updateSet(Match match, long playerWhoWinsPoint) {
+    private void updateSet(Match match, String playerWhoWinsPoint) {
         if (tieBreakCondition(match)) {
             updateTieBreak(match, playerWhoWinsPoint);
         } else {
@@ -41,8 +42,8 @@ public class MatchScoreCalculationService {
         }
     }
 
-    private void updateTieBreak(Match match, long playerWhoWinsPoint) {
-        if (playerWhoWinsPoint == match.getId1()) {
+    private void updateTieBreak(Match match, String playerWhoWinsPoint) {
+        if (Objects.equals(playerWhoWinsPoint, match.getName1())) {
             match.setPoints1(match.getPoints1() + 1);
         } else {
             match.setPoints2(match.getPoints2() + 1);
@@ -69,28 +70,28 @@ public class MatchScoreCalculationService {
         return match.getGame1() == 6 && match.getGame2() == 6;
     }
 
-    private void updateGame(Match match, long playerWhoWinsPoint) {
-        if (match.getId1() == playerWhoWinsPoint
+    private void updateGame(Match match, String playerWhoWinsPoint) {
+        if (Objects.equals(match.getName1(), playerWhoWinsPoint)
                 && match.getPoints1() == Points.WIN_THIRD_PITCH && match.getPoints2() <= Points.WIN_SECOND_PITCH) {
             match.setGame1(match.getGame1() + 1);
             resetPoints(match);
-        } else if (match.getId2() == playerWhoWinsPoint
+        } else if (Objects.equals(match.getName2(), playerWhoWinsPoint)
                 && match.getPoints2() == Points.WIN_THIRD_PITCH && match.getPoints1() <= Points.WIN_SECOND_PITCH) {
             match.setGame2(match.getGame2() + 1);
             resetPoints(match);
-        } else if (match.getId1() == playerWhoWinsPoint
+        } else if (Objects.equals(match.getName1(), playerWhoWinsPoint)
                 && match.getPoints1() == Points.ADVANTAGE && match.getPoints2() == Points.WIN_THIRD_PITCH) {
             match.setGame1(match.getGame1() + 1);
             resetPoints(match);
-        } else if(match.getId2() == playerWhoWinsPoint
+        } else if(Objects.equals(match.getName2(), playerWhoWinsPoint)
                 && match.getPoints2() == Points.ADVANTAGE && match.getPoints1() == Points.WIN_THIRD_PITCH)  {
             match.setGame2(match.getGame2() + 1);
             resetPoints(match);
-        } else if(match.getId1() == playerWhoWinsPoint
+        } else if(Objects.equals(match.getName1(), playerWhoWinsPoint)
                 && match.getPoints1() == Points.WIN_THIRD_PITCH && match.getPoints2() == Points.ADVANTAGE )  {
             match.setPoints2(Points.WIN_THIRD_PITCH);
             updatePoints(match, playerWhoWinsPoint);
-        } else if(match.getId2() == playerWhoWinsPoint
+        } else if(Objects.equals(match.getName2(), playerWhoWinsPoint)
                 && match.getPoints2() == Points.WIN_THIRD_PITCH && match.getPoints1() == Points.ADVANTAGE )  {
             match.setPoints1(Points.WIN_THIRD_PITCH);
             updatePoints(match, playerWhoWinsPoint);
@@ -104,8 +105,8 @@ public class MatchScoreCalculationService {
         match.setPoints2(0);
     }
 
-    private void updatePoints(Match match, long playerWhoWinsPoint) {
-        if (playerWhoWinsPoint == match.getId1()) {
+    private void updatePoints(Match match, String playerWhoWinsPoint) {
+        if (Objects.equals(playerWhoWinsPoint, match.getName1())) {
             int newPoints = calculateNewPoints(match.getPoints1());
             match.setPoints1(newPoints);
         } else {
@@ -126,16 +127,16 @@ public class MatchScoreCalculationService {
         }
     }
 
-    public Optional<Long> getWinner(String uuid) {
+    public Optional<String> getWinner(String uuid) {
         Match match = ongoingMatchesService.getMatch(uuid);
         return getWinner(match);
     }
 
-    public Optional<Long> getWinner(Match match) {
+    public Optional<String> getWinner(Match match) {
         if (match.getSet1() == 2 && match.getSet2() < 2) {
-            return Optional.of(match.getId1());
+            return Optional.of(match.getName1());
         } else if (match.getSet2() == 2 && match.getSet1() < 2) {
-            return Optional.of(match.getId2());
+            return Optional.of(match.getName2());
         } else {
             return Optional.empty();
         }

@@ -15,7 +15,7 @@ public class MatchScoreModelDtoScoreCalculationServiceTests {
         match.setPoints2(40);
         int game1 = match.getGame1();
 
-        underTest.updateScore(match, match.getId1());
+        underTest.updateScore(match, match.getName1());
 
         assertEquals(game1, match.getGame1());
     }
@@ -29,7 +29,7 @@ public class MatchScoreModelDtoScoreCalculationServiceTests {
 
         int game2 = match.getGame2();
 
-        underTest.updateScore(match, match.getId2());
+        underTest.updateScore(match, match.getName2());
 
         assertEquals(game2, match.getGame2());
     }
@@ -42,8 +42,8 @@ public class MatchScoreModelDtoScoreCalculationServiceTests {
         match.setPoints2(40);
         int game1 = match.getGame1();
 
-        underTest.updateScore(match, match.getId1());
-        underTest.updateScore(match, match.getId1());
+        underTest.updateScore(match, match.getName1());
+        underTest.updateScore(match, match.getName1());
 
         assertEquals(game1 + 1, match.getGame1());
     }
@@ -56,8 +56,8 @@ public class MatchScoreModelDtoScoreCalculationServiceTests {
         match.setPoints2(40);
         int game2 = match.getGame2();
 
-        underTest.updateScore(match, match.getId2());
-        underTest.updateScore(match, match.getId2());
+        underTest.updateScore(match, match.getName2());
+        underTest.updateScore(match, match.getName2());
 
         assertEquals(game2 + 1, match.getGame2());
     }
@@ -72,8 +72,8 @@ public class MatchScoreModelDtoScoreCalculationServiceTests {
         int game1 = match.getGame1();
         int points1 = match.getPoints1();
 
-        underTest.updateScore(match, match.getId1());
-        underTest.updateScore(match, match.getId2());
+        underTest.updateScore(match, match.getName1());
+        underTest.updateScore(match, match.getName2());
 
         assertEquals(points1, match.getPoints1());
         assertEquals(game1, match.getGame1());
@@ -89,8 +89,8 @@ public class MatchScoreModelDtoScoreCalculationServiceTests {
         int game2 = match.getGame2();
         int points2 = match.getPoints2();
 
-        underTest.updateScore(match, match.getId2());
-        underTest.updateScore(match, match.getId1());
+        underTest.updateScore(match, match.getName2());
+        underTest.updateScore(match, match.getName1());
 
         assertEquals(points2, match.getPoints2());
         assertEquals(game2, match.getGame2());
@@ -104,7 +104,7 @@ public class MatchScoreModelDtoScoreCalculationServiceTests {
         match.setPoints2(0);
         int game1 = match.getGame1();
 
-        underTest.updateScore(match, match.getId1());
+        underTest.updateScore(match, match.getName1());
 
         assertEquals(game1 + 1, match.getGame1());
     }
@@ -117,7 +117,7 @@ public class MatchScoreModelDtoScoreCalculationServiceTests {
         match.setPoints2(40);
         int game2 = match.getGame2();
 
-        underTest.updateScore(match, match.getId2());
+        underTest.updateScore(match, match.getName2());
 
         assertEquals(game2 + 1, match.getGame2());
     }
@@ -129,8 +129,8 @@ public class MatchScoreModelDtoScoreCalculationServiceTests {
         match.setGame1(6);
         match.setGame2(6);
 
-        underTest.updateScore(match, match.getId1());
-        underTest.updateScore(match, match.getId2());
+        underTest.updateScore(match, match.getName1());
+        underTest.updateScore(match, match.getName2());
 
         assertEquals(1, match.getPoints1());
         assertEquals(1, match.getPoints2());
@@ -145,7 +145,7 @@ public class MatchScoreModelDtoScoreCalculationServiceTests {
         match.setPoints1(40);
         int set1 = match.getSet1();
 
-        underTest.updateScore(match, match.getId1());
+        underTest.updateScore(match, match.getName1());
 
         assertEquals(set1 + 1, match.getSet1());
     }
@@ -159,7 +159,7 @@ public class MatchScoreModelDtoScoreCalculationServiceTests {
         match.setPoints2(40);
         int set2 = match.getSet2();
 
-        underTest.updateScore(match, match.getId2());
+        underTest.updateScore(match, match.getName2());
 
         assertEquals(set2 + 1, match.getSet2());
     }
@@ -175,7 +175,7 @@ public class MatchScoreModelDtoScoreCalculationServiceTests {
 
         int set1 = match.getSet1();
 
-        underTest.updateScore(match, match.getId1());
+        underTest.updateScore(match, match.getName1());
 
         assertEquals(set1 + 1, match.getSet1());
     }
@@ -190,7 +190,7 @@ public class MatchScoreModelDtoScoreCalculationServiceTests {
         match.setPoints1(5);
         int set2 = match.getSet2();
 
-        underTest.updateScore(match, match.getId2());
+        underTest.updateScore(match, match.getName2());
 
         assertEquals(set2 + 1, match.getSet2());
     }
@@ -205,7 +205,7 @@ public class MatchScoreModelDtoScoreCalculationServiceTests {
         match.setPoints2(5);
 
         int set1 = match.getSet1();
-        underTest.updateScore(match, match.getId2());
+        underTest.updateScore(match, match.getName2());
 
         assertEquals(0, match.getPoints1());
         assertEquals(0, match.getPoints2());
@@ -219,7 +219,7 @@ public class MatchScoreModelDtoScoreCalculationServiceTests {
         match.setSet1(2);
 
         assertTrue(underTest.getWinner(match).isPresent());
-        assertEquals(underTest.getWinner(match).get(), match.getId1());
+        assertEquals(underTest.getWinner(match).get(), match.getName1());
     }
 
     @Test
@@ -229,6 +229,6 @@ public class MatchScoreModelDtoScoreCalculationServiceTests {
         match.setSet2(2);
 
         assertTrue(underTest.getWinner(match).isPresent());
-        assertEquals(underTest.getWinner(match).get(), match.getId2());
+        assertEquals(underTest.getWinner(match).get(), match.getName2());
     }
 }

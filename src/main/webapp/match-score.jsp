@@ -21,9 +21,9 @@
     <div class="table-container">
         <table>
             <tr>
-                <th>Player1</th>
+                <th><%= match.getName1()%></th>
                 <th></th>
-                <th>Player2</th>
+                <th><%= match.getName2()%></th>
             </tr>
             <tr>
                 <th><%= match.getSet1()%></th>
@@ -67,14 +67,14 @@
                 <th>
                     <form action="/match-score" method="post">
                         <input type="hidden" name="uuid" value="<%= uuidString %>">
-                        <button type="submit" name="playerId" value="<%= match.getId1()%>"> player 1 wins the current point</button>
+                        <button type="submit" name="playerName" value="<%= match.getName1()%>"> player 1 wins the current point</button>
                     </form>
                 </th>
                 <th></th>
                 <th>
                     <form action="/match-score" method="post">
                         <input type="hidden" name="uuid" value="<%= uuidString %>">
-                        <button type="submit" name="playerId" value="<%= match.getId2()%>"> player 2 wins the current point</button>
+                        <button type="submit" name="playerName" value="<%= match.getName2()%>"> player 2 wins the current point</button>
                     </form>
                 </th>
             </tr>

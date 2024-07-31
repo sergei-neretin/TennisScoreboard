@@ -39,9 +39,7 @@ public class OngoingMatchesService {
 
     public String add(String name1, String name2) {
         UUID uuid = UUID.randomUUID();
-        long id1 = getPlayerId(name1);
-        long id2 = getPlayerId(name2);
-        Match match = Match.builder().id1(id1).id2(id2).build();
+        Match match = Match.builder().name1(name1).name2(name2).build();
         ongoingMatches.put(uuid, match);
         log.info(MessageFormat.format("Added new ongoing match: {0}",
                 match));
