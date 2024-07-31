@@ -1,16 +1,10 @@
 package com.sergeineretin.tennisScoreboard.service;
 
-import com.sergeineretin.tennisScoreboard.dao.PlayerDao;
-import com.sergeineretin.tennisScoreboard.dao.impl.PlayerDaoImpl;
 import com.sergeineretin.tennisScoreboard.dto.Match;
-import com.sergeineretin.tennisScoreboard.model.MatchScoreModel;
-import com.sergeineretin.tennisScoreboard.model.Player;
+import com.sergeineretin.tennisScoreboard.exceptions.MatchNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import java.text.MessageFormat;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,16 +12,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class OngoingMatchesService {
     private static OngoingMatchesService instance;
     private ConcurrentHashMap<UUID, Match> ongoingMatches;
-    private PlayerDao playerDao;
 
     private OngoingMatchesService() {
         ongoingMatches = new ConcurrentHashMap<>();
-        SessionFactory factory = new Configuration()
-                .configure("hibernate.cfg.xml")
-                .addAnnotatedClass(Player.class)
-                .addAnnotatedClass(MatchScoreModel.class)
-                .buildSessionFactory();
-        playerDao = new PlayerDaoImpl(factory);
     }
 
     public static synchronized OngoingMatchesService getInstance() {
@@ -47,20 +34,19 @@ public class OngoingMatchesService {
         return uuid.toString();
     }
 
-    private long getPlayerId(String name) {
-        Optional<Player> optionalPlayer = playerDao.findByName(name);
-        if (optionalPlayer.isPresent()) {
-            return optionalPlayer.get().getId();
-        } else {
-            Player player = Player.builder().name(name).build();
-            playerDao.save(player);
-            return player.getId();
-        }
-    }
-
     public Match getMatch(String uuidString) {
-        UUID uuid = UUID.fromString(uuidString);
-        return ongoingMatches.get(uuid);
+        try {
+            UUID uuid = UUID.fromString(uuidString);
+            Match match = ongoingMatches.get(uuid);
+            if (match == null) {
+                throw new IllegalArgumentException();
+            } else {
+                return match;
+            }
+        } catch (IllegalArgumentException e) {
+            log.info("Match not found.");
+            throw new MatchNotFoundException("Match not found.");
+        }
     }
 
 

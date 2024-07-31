@@ -1,7 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page import="com.sergeineretin.tennisScoreboard.dto.Match"%>
-<%@page import="com.sergeineretin.tennisScoreboard.service.OngoingMatchesService"%>
-<%@page import="java.util.UUID"%>
 <%@page import="com.sergeineretin.tennisScoreboard.Points"%>
 
 <!DOCTYPE html>
@@ -13,9 +11,9 @@
 </head>
 <body>
     <%
-    OngoingMatchesService ongoingMatchesService = OngoingMatchesService.getInstance();
     String uuidString = request.getParameter("uuid");
-    Match match = ongoingMatchesService.getMatch(uuidString);
+    Match match = (Match)request.getAttribute("match");
+
     %>
     <h1>Match Score</h1>
     <div class="table-container">
