@@ -1,7 +1,6 @@
 package com.sergeineretin.tennisScoreboard.controllers;
 
 import com.sergeineretin.tennisScoreboard.dto.Match;
-import com.sergeineretin.tennisScoreboard.dto.MatchScoreDto;
 import com.sergeineretin.tennisScoreboard.service.FinishedMatchesPersistenceService;
 import com.sergeineretin.tennisScoreboard.service.MatchScoreCalculationService;
 import com.sergeineretin.tennisScoreboard.service.OngoingMatchesService;
@@ -42,8 +41,8 @@ public class MatchScoreController extends HttpServlet {
         if (winnerName.isPresent()) {
             Match match = ongoingMatchesService.getMatch(uuid);
             ongoingMatchesService.remove(uuid);
-            MatchScoreDto matchScoreDto = finishedMatchesPersistenceService.writeMatch(match, winnerName.get());
-            req.setAttribute("match", matchScoreDto);
+            finishedMatchesPersistenceService.writeMatch(match, winnerName.get());
+            req.setAttribute("match", match);
             RequestDispatcher dispatcher = req.getRequestDispatcher("/finished-match.jsp");
             dispatcher.forward(req, resp);
         } else {

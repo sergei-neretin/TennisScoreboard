@@ -6,7 +6,6 @@ import com.sergeineretin.tennisScoreboard.dao.impl.MatchDaoImpl;
 import com.sergeineretin.tennisScoreboard.dao.impl.PlayerDaoImpl;
 import com.sergeineretin.tennisScoreboard.dto.Match;
 import com.sergeineretin.tennisScoreboard.dto.MatchDto;
-import com.sergeineretin.tennisScoreboard.dto.MatchScoreDto;
 import com.sergeineretin.tennisScoreboard.model.MatchScoreModel;
 import com.sergeineretin.tennisScoreboard.model.Player;
 import lombok.extern.slf4j.Slf4j;
@@ -36,18 +35,10 @@ public class FinishedMatchesPersistenceService {
         this.modelMapper = new ModelMapper();
     }
 
-    public MatchScoreDto writeMatch(Match match, String winnerName) {
+    public void writeMatch(Match match, String winnerName) {
         MatchScoreModel matchScoreModel = convertToMatchScoreModel(match, winnerName);
         matchDao.save(matchScoreModel);
         log.info(MessageFormat.format("Written match: {0}", matchScoreModel));
-        MatchDto matchDto = modelMapper.map(matchScoreModel, MatchDto.class);
-        return MatchScoreDto.builder()
-                .player1(matchDto.getPlayer1())
-                .player2(matchDto.getPlayer2())
-                .winner(matchDto.getWinner())
-                .score1(match.getSet1())
-                .score2(match.getSet2())
-                .build();
     }
 
     private MatchScoreModel convertToMatchScoreModel(Match match, String winnerName) {
