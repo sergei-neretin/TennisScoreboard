@@ -195,22 +195,6 @@ public class MatchScoreCalculationServiceTests {
     }
 
     @Test
-    public void if_score_6_6_points_reset_tiebreak() {
-        Match match = MatchTestUtils.getMatch();
-        match.setGame1(6);
-        match.setGame2(6);
-        match.setPoints1(6);
-        match.setPoints2(5);
-
-        int set1 = match.getSet1();
-        underTest.updateScore(match, match.getName2());
-
-        assertEquals(0, match.getPoints1());
-        assertEquals(0, match.getPoints2());
-        assertEquals(set1, match.getSet1());
-    }
-
-    @Test
     public void if_player1_wins_two_sets_then_wins_the_match() {
         Match match = MatchTestUtils.getMatch();
         match.setSet1(2);

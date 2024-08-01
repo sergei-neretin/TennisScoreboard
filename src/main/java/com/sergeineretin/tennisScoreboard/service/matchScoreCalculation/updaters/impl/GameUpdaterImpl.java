@@ -34,11 +34,9 @@ public class GameUpdaterImpl implements GameUpdater {
         } else if(Objects.equals(match.getName1(), playerWhoWinsPoint)
                 && match.getPoints1() == Points.WIN_THIRD_PITCH && match.getPoints2() == Points.ADVANTAGE )  {
             match.setPoints2(Points.WIN_THIRD_PITCH);
-            pointUpdater.updatePoints(match, playerWhoWinsPoint);
         } else if(Objects.equals(match.getName2(), playerWhoWinsPoint)
                 && match.getPoints2() == Points.WIN_THIRD_PITCH && match.getPoints1() == Points.ADVANTAGE )  {
             match.setPoints1(Points.WIN_THIRD_PITCH);
-            pointUpdater.updatePoints(match, playerWhoWinsPoint);
         }  else {
             pointUpdater.updatePoints(match, playerWhoWinsPoint);
         }
