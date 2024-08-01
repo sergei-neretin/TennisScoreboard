@@ -10,6 +10,7 @@ import org.hibernate.cfg.Configuration;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FindingMatchesByPlayerNameService {
     private final MatchDaoImpl matchScoreDao;
@@ -37,7 +38,7 @@ public class FindingMatchesByPlayerNameService {
         List<MatchScoreModel> byPlayerName = matchScoreDao.findByPlayerName(name, page);
         return byPlayerName.stream()
                 .map(model -> modelMapper.map(model, MatchDto.class))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public long getNumberOfPages(String name) {

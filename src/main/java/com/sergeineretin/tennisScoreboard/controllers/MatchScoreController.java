@@ -52,6 +52,8 @@ public class MatchScoreController extends HttpServlet {
             String nameOfPointWinner = req.getParameter("playerName");
             matchScoreCalculationService.updateScore(uuid, nameOfPointWinner);
             Optional<String> winnerName = matchScoreCalculationService.getWinner(uuid);
+            String contextPath = req.getContextPath();
+
             if (winnerName.isPresent()) {
                 Match match = ongoingMatchesService.getMatch(uuid);
                 ongoingMatchesService.remove(uuid);
@@ -60,7 +62,7 @@ public class MatchScoreController extends HttpServlet {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/finished-match.jsp");
                 dispatcher.forward(req, resp);
             } else {
-                resp.sendRedirect("/match-score?uuid=" + uuid);
+                resp.sendRedirect(contextPath + "/match-score?uuid=" + uuid);
             }
         } catch (MatchNotFoundException e) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, e.getMessage());

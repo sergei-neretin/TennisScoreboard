@@ -6,9 +6,12 @@
     <title>Create a New Match</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
+<%
+String contextPath = request.getContextPath();
+%>
 <body>
 <h1>Create a New Match</h1>
-<form action="new-match" method="post">
+<form action="<%= contextPath %>/new-match" method="post">
     <div class="form-container">
         <div class="form-group">
             <label for="player1">Name of 1st player:</label>

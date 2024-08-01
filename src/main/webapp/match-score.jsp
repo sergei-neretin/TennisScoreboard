@@ -13,7 +13,7 @@
     <%
     String uuidString = request.getParameter("uuid");
     Match match = (Match)request.getAttribute("match");
-
+    String contextPath = request.getContextPath();
     %>
     <h1>Match Score</h1>
     <div class="table-container">
@@ -63,14 +63,14 @@
             </tr>
             <tr>
                 <th>
-                    <form action="/match-score" method="post">
+                    <form action="<%= contextPath %>/match-score" method="post">
                         <input type="hidden" name="uuid" value="<%= uuidString %>">
                         <button type="submit" name="playerName" value="<%= match.getName1()%>"> player 1 wins the current point</button>
                     </form>
                 </th>
                 <th></th>
                 <th>
-                    <form action="/match-score" method="post">
+                    <form action="<%= contextPath %>/match-score" method="post">
                         <input type="hidden" name="uuid" value="<%= uuidString %>">
                         <button type="submit" name="playerName" value="<%= match.getName2()%>"> player 2 wins the current point</button>
                     </form>

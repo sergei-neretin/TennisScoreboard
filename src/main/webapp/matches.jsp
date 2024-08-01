@@ -20,9 +20,11 @@ if(pageString != null && !pageString.isEmpty()) {
 }
 List<MatchDto> matches = (List<MatchDto>)request.getAttribute("matches");
 long numberOfPages = (long)request.getAttribute("numberOfPages");
+String contextPath = request.getContextPath();
+
 %>
 <h1>Matches</h1>
-<form class="matchesSearch" action="/matches" method="get">
+<form class="matchesSearch" action="<%= contextPath %>/matches" method="get">
    <div class="form-container">
        <div class="form-group"><label for="filter_by_player_name">Player Name:</label></div>
        <div class="form-group"><input type="text" id="filter_by_player_name" name="filter_by_player_name" placeholder="John Doe" ></div>

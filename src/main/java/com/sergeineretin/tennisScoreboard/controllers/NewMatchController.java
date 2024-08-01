@@ -15,9 +15,7 @@ public class NewMatchController extends HttpServlet {
     private OngoingMatchesService ongoingMatchesService;
     @Override
     public void init(ServletConfig config) throws ServletException {
-        ongoingMatchesService = (OngoingMatchesService) config
-                .getServletContext()
-                .getAttribute("ongoingMatchesService");
+        ongoingMatchesService = OngoingMatchesService.getInstance();
     }
 
     @Override
@@ -34,7 +32,9 @@ public class NewMatchController extends HttpServlet {
             req.setAttribute("player2", name2);
             req.getRequestDispatcher("new-match.jsp").forward(req, resp);
         }
+        String contextPath = req.getContextPath();
+
         String uuidString = ongoingMatchesService.add(name1, name2);
-        resp.sendRedirect("/match-score?uuid=" + uuidString);
+        resp.sendRedirect(contextPath + "/match-score?uuid=" + uuidString);
     }
 }

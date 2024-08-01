@@ -6,6 +6,9 @@ plugins {
 group = 'com.sergeineretin'
 version = '1.0-SNAPSHOT'
 
+sourceCompatibility = '11'
+targetCompatibility = '11'
+
 repositories {
     mavenCentral()
 }
@@ -25,6 +28,12 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
     implementation 'org.modelmapper:modelmapper:3.1.1'
+}
+
+war {
+    from("src/main/webapp") {
+        include "WEB-INF/**/*.jsp"
+    }
 }
 
 test {
