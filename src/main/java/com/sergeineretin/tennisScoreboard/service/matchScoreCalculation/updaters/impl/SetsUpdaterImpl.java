@@ -1,6 +1,6 @@
 package com.sergeineretin.tennisScoreboard.service.matchScoreCalculation.updaters.impl;
 
-import com.sergeineretin.tennisScoreboard.dto.Match;
+import com.sergeineretin.tennisScoreboard.model.Match;
 import com.sergeineretin.tennisScoreboard.service.matchScoreCalculation.updaters.GameUpdater;
 import com.sergeineretin.tennisScoreboard.service.matchScoreCalculation.updaters.SetsUpdater;
 import com.sergeineretin.tennisScoreboard.service.matchScoreCalculation.updaters.TieBreakUpdater;

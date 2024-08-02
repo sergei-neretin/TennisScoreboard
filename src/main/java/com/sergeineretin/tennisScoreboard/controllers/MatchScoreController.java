@@ -1,6 +1,6 @@
 package com.sergeineretin.tennisScoreboard.controllers;
 
-import com.sergeineretin.tennisScoreboard.dto.Match;
+import com.sergeineretin.tennisScoreboard.model.Match;
 import com.sergeineretin.tennisScoreboard.exceptions.MatchNotFoundException;
 import com.sergeineretin.tennisScoreboard.service.FinishedMatchesPersistenceService;
 import com.sergeineretin.tennisScoreboard.service.MatchScoreCalculationService;

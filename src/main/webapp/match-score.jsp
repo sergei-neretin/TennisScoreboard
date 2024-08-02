@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@page import="com.sergeineretin.tennisScoreboard.dto.Match"%>
+<%@page import="com.sergeineretin.tennisScoreboard.model.Match"%>
 <%@page import="com.sergeineretin.tennisScoreboard.Points"%>
 
 <!DOCTYPE html>

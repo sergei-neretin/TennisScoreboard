@@ -1,6 +1,6 @@
 package com.sergeineretin.tennisScoreboard.service;
 
-import com.sergeineretin.tennisScoreboard.dto.Match;
+import com.sergeineretin.tennisScoreboard.model.Match;
 
 public class MatchTestUtils {
     private MatchTestUtils() {}

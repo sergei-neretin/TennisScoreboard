@@ -1,6 +1,6 @@
 package com.sergeineretin.tennisScoreboard.service;
 
-import com.sergeineretin.tennisScoreboard.dto.Match;
+import com.sergeineretin.tennisScoreboard.model.Match;
 import com.sergeineretin.tennisScoreboard.service.matchScoreCalculation.MatchScoreCalculationFacade;
 import com.sergeineretin.tennisScoreboard.service.matchScoreCalculation.updaters.SetsUpdater;
 import com.sergeineretin.tennisScoreboard.service.matchScoreCalculation.updaters.WinnerGetter;

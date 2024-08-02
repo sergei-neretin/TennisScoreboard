@@ -1,7 +1,7 @@
 package com.sergeineretin.tennisScoreboard.service.matchScoreCalculation.updaters.impl;
 
 import com.sergeineretin.tennisScoreboard.Points;
-import com.sergeineretin.tennisScoreboard.dto.Match;
+import com.sergeineretin.tennisScoreboard.model.Match;
 import com.sergeineretin.tennisScoreboard.service.matchScoreCalculation.updaters.PointUpdater;
 
 import java.util.Objects;

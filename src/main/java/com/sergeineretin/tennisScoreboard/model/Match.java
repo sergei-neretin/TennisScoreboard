@@ -1,4 +1,4 @@
-package com.sergeineretin.tennisScoreboard.dto;
+package com.sergeineretin.tennisScoreboard.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
