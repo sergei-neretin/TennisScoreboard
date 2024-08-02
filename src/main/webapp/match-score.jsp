@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>New Match</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <%

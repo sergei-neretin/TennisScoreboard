@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>New Match</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <%
@@ -27,6 +27,6 @@ Match match = (Match)request.getAttribute("match");
         </tr>
     </table>
 </div>
-
+<%@ include file="navigation.jsp" %>
 </body>
 </html>

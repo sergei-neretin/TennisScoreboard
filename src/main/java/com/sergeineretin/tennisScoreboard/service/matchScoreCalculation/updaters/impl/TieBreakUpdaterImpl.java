@@ -9,11 +9,11 @@ public class TieBreakUpdaterImpl implements TieBreakUpdater {
     @Override
     public void updateTieBreak(Match match, String playerWhoWinsPoint) {
         updateScore(match, playerWhoWinsPoint);
-        if (match.getPoints1() >= 7 && match.getPoints1() - match.getPoints2() == 2 ) {
+        if (match.getPoints1() >= 7 && match.getPoints1() - match.getPoints2() >= 2 ) {
             match.setSet1(match.getSet1() + 1);
             match.resetGames();
             match.resetPoints();
-        } else if (match.getPoints2() >= 7 && match.getPoints2() - match.getPoints1() == 2) {
+        } else if (match.getPoints2() >= 7 && match.getPoints2() - match.getPoints1() >= 2) {
             match.setSet2(match.getSet2() + 1);
             match.resetGames();
             match.resetPoints();

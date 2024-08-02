@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <title>New Match</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <%
@@ -30,7 +30,7 @@ String contextPath = request.getContextPath();
        <div class="form-group"><input type="text" id="filter_by_player_name" name="filter_by_player_name" placeholder="John Doe" ></div>
        <div class="form-group"><input type="submit" value="Find"></div>
 
-       <table>
+       <table class="table-container">
            <tr>
                <th>Player 1</th>
                <th>Player 2</th>
@@ -60,5 +60,6 @@ String contextPath = request.getContextPath();
        </div>
    </div>
 </form>
+<%@ include file="navigation.jsp" %>
 </body>
 </html>
